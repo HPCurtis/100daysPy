@@ -1,9 +1,11 @@
+# Fix wrap around bug and the avoiding of punctuation or blank spaces.
+
 from cipherart import ca
 
 # Define alphabet variable
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-# prijt ASCI art.
+# prijt ASCI art.git 
 print(ca())
 
 direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").strip()
