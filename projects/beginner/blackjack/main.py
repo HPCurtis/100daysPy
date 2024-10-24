@@ -83,7 +83,6 @@ def dealer_hit_algo(computer_score, player_score):
         return False 
     elif computer_total < player_total and computer_total < 21:  # Computer will try to beat the player
         return True
-    
 
 # Function to check the score of Blackjack and determine the winner
 def winner(computer_score, player_score):
