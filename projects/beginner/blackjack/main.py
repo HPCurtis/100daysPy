@@ -1,4 +1,4 @@
-# Import neccesary packages.
+# Import necessary packages.
 from random import sample
 import os
 from deck import cards_dict, card_list
@@ -6,22 +6,19 @@ from art import blasci
 
 def main():
     
-    # Create while to get user inout until end of game or exit made by user.
+    # Create a while loop to get user input until the end of the game or exit is made by the user.
     while True:
-
-        # Get user chocie to play or not
+        # Get user choice to play or not
         choice = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
 
         if choice == 'y':
-            # Clear the terminal sscreen before proceding.
-            os.system('clear')
+            # Clear the terminal screen before proceeding.
+            os.system('clear')  # or use os.system('cls') for Windows
             print(blasci)
             blackjack(cl=card_list, cd=cards_dict)
             break
-        elif choice =='n':
+        elif choice == 'n':
             break
-
-        # If not correct repsonse given by user prompt use again.
         else:
             print("Please select an appropriate input")
 
@@ -29,7 +26,7 @@ def blackjack(cl, cd):
     players_score = []
     computers_score = []
 
-    # Generate players hand and update the decks.
+    # Generate player's hand and update the decks.
     players_cards = sample(cl, 2)
 
     for card in players_cards:
@@ -38,75 +35,71 @@ def blackjack(cl, cd):
     
     print(f"Your cards: {players_score}, current score {sum(players_score)}")
 
-    # Generate the computers hand.
+    # Generate the computer's hand.
     computers_cards = sample(cl, 2)
     for card in computers_cards:
         computers_score.append(cd[card])
         cl.remove(card)
         
-    print(f"Computers first card {computers_score[0]}")
-
+    print(f"Computer's first card: {computers_cards[0]}")
 
     # Player game choices
     while True:
         stick_twist = input("Type 'y' to get another card, type 'n' to pass: ")
         if stick_twist == 'y':
-            players_card = sample(cl, 1)
-            cl.remove(players_card[0])
-            players_score.append(cd[players_card[0]])
+            players_card = sample(cl, 1)[0]  # Take the first card from the sample
+            cl.remove(players_card)
+            players_score.append(cd[players_card])
             print(f"Your cards: {players_score}, current score {sum(players_score)}")
-            print(f"Computers first card {computers_score[0]}")
+            print(f"Computer's first card: {computers_cards[0]}")
             
         elif stick_twist == 'n':
             break
         else:
-            print("Please use an appropriate response as specfied")
+            print("Please use an appropriate response as specified")
     
-    # Computers game choices.
+    # Computer's game choices.
     while True:
         if dealer_hit_algo(computers_score, players_score):
-                computers_card = sample(cl, 1)
-                cl.remove(computers_card[0])
-                computers_score.append(cd[computers_card[0]])
-                print(f"Your cards: {players_score}, players final score {sum(players_score)}")
-                print(f"Computers cards {computers_score} and score {sum(computers_score)}")
+            computers_card = sample(cl, 1)[0]  # Take the first card from the sample
+            cl.remove(computers_card)
+            computers_score.append(cd[computers_card])
+            print(f"Your cards: {players_score}, player's final score {sum(players_score)}")
+            print(f"Computer's cards: {computers_score} and score {sum(computers_score)}")
         else:
-            print(f"Your cards: {players_score}, players final score {sum(players_score)}")
-            print(f"Computers cards {computers_score} and score {sum(computers_score)}")
+            print(f"Your cards: {players_score}, player's final score {sum(players_score)}")
+            print(f"Computer's cards: {computers_score} and score {sum(computers_score)}")
             winner(computers_score, players_score)
             break
 
-def dealer_hit_algo(computers_score, players_score):
-    players_score = sum(players_score)
-    computers_score = sum(computers_score)
+def dealer_hit_algo(computer_score, player_score):
+    player_total = sum(player_score)
+    computer_total = sum(computer_score)
     
-    # The computers deciosn algortihm on whether to hit
-
-    # If player score has go other 21 the computer 
-    # delaer has already one so shouldnt act 
-    if players_score > 21:
+    # The computer's decision algorithm on whether to hit
+    if player_total > 21:  # Player bust
         return False
-    # If the computers score is higher theyve won so stop acting
-    elif computers_score > players_score:
+    elif computer_total > player_total:  # Computer already won
         return False 
-    # Computer will always attempt to beat the player
-    # by acting until score is higher or it busts out.
-    elif computers_score <= players_score & computers_score < 21:
+    elif computer_total < player_total and computer_total < 21:  # Computer will try to beat the player
         return True
+    
 
-# fucntion to the score of bl and determine the winner
-def winner(computers_score, players_score):
+# Function to check the score of Blackjack and determine the winner
+def winner(computer_score, player_score):
+    player_total = sum(player_score)
+    computer_total = sum(computer_score)
 
-    players_score = sum(players_score)
-    computers_score = sum(computers_score)
-
-    if players_score > 21:
+    if player_total > 21:
         print("You lose")
-    elif players_score > computers_score:
+    elif computer_total > 21:
+        print("you win")
+    elif player_total > computer_total:
         print("You win")
+    elif computer_total > player_total:
+        print("you lose")
     else: 
-        print("You lose")
-
+        print("You draw")
 
 if __name__ == "__main__":
     main()
