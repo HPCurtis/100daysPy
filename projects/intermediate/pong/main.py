@@ -23,10 +23,13 @@ ball = Ball((0,0))
 scoreboard = Scoreboard()
 
 screen.listen()
+
+# Specify player control keys.
 screen.onkey(r_paddle.go_up, "Up")
 screen.onkey(r_paddle.go_down, "Down")
 screen.onkey(l_paddle.go_up, "w")
 screen.onkey(l_paddle.go_down, "s")
+# Exit proghramme using the esc key on keyboard
 screen.onkey(screen.bye, "Escape")
 
 game_is_on = True
